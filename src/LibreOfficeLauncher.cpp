@@ -18,18 +18,11 @@
 
 #include "LibreOfficeLauncher.h"
 
-LibreOfficeLauncherApp::LibreOfficeLauncherApp(char *signature, int argc, char **argv)
+LibreOfficeLauncherApp::LibreOfficeLauncherApp(char *signature, int _argc, char **_argv)
 	: BApplication(signature)
 {
-	this->argc = argc;
-	this->argv = argv;
-	
+	argv = _argv;
 }
-
-LibreOfficeLauncherApp::~LibreOfficeLauncherApp()
-{
-}
-
 
 BPath
 LibreOfficeLauncherApp::LauncherPath(const char *dir)
@@ -68,8 +61,8 @@ LibreOfficeLauncherApp::RefsReceived(BMessage *pmsg)
    		 {
    		    BPath file=BPath(&ref);
    		    char temp[B_PATH_NAME_LENGTH];
-   		    sprintf(temp,"\"%s/%s\" --nologo \"%s\" &",
-   		    	LauncherPath("program"),
+   		    sprintf(temp,"\"%s/%s\" \"%s\" &",
+   		    	LauncherPath("program").Path(),
    		    	LauncherName().String(),
    		    	file.Path());
    		    system(temp);
@@ -104,7 +97,6 @@ void
 LibreOfficeLauncherApp::ReadyToRun()
 {
     char temp[B_PATH_NAME_LENGTH];
-    LauncherPath("");
     BString appname;
     if (strstr(argv[0], "Writer") != 0)
     	appname.SetTo("--writer");
@@ -120,7 +112,7 @@ LibreOfficeLauncherApp::ReadyToRun()
     	appname.SetTo("--base");
     if (strstr(argv[0], "Web") != 0)
     	appname.SetTo("--web");
-    sprintf(temp, "\"%s/%s\" --nologo %s &",
+    sprintf(temp, "\"%s/%s\" %s &",
     	LauncherPath("program").Path(),
     	LauncherName().String(),
     	appname.String());

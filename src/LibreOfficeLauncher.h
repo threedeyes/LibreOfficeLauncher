@@ -16,7 +16,7 @@
 class LibreOfficeLauncherApp : public BApplication {
 	public:
 		LibreOfficeLauncherApp(char *signature, int argc, char **argv);
-		~LibreOfficeLauncherApp();
+		~LibreOfficeLauncherApp() {};
 		void			RefsReceived(BMessage *pmsg);
 		void			ArgvReceived(int32 argc, char **argv);
 		virtual void 	ReadyToRun();
@@ -25,7 +25,6 @@ class LibreOfficeLauncherApp : public BApplication {
 		BString 		LauncherName(void);
 		BMessenger  	fTrackerMessenger;
 
-		int				argc;
 		char			**argv;
 };
 
